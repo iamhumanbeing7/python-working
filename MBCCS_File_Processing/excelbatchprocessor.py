@@ -8,9 +8,9 @@ def addsinglequote(stringvar):
 
 
 # import db_config
-user = "APPTESTDBA"
-pw = "Passw0rd1"
-dsn = "SSCDA/oradbdev"
+user = ""
+pw = ""
+dsn = ""
 path_2017 = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Data\\MBCCS Security Deployment_fromBenny\\2017\\"
 files_2017 = os.listdir(path_2017)
 # print(files_2017)
