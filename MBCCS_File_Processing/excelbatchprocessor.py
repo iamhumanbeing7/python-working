@@ -1,22 +1,22 @@
 import os
 from xlrd import open_workbook
 import cx_Oracle
+from MBCCS_File_Processing import config
 
 
-def addsinglequote(stringvar):
-    return "'" + stringvar + "'"
+def removeNonAscii(varstring):
+    return "".join(i for i in varstring if ord(i) < 128)
 
-
-# import db_config
-user = "APPTESTDBA"
-pw = "Passw0rd1"
-dsn = "SSCDA/oradbdev"
-path_2017 = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Data\\MBCCS Security Deployment_fromBenny\\2017\\"
+user = config.user
+pw = config.pw
+dsn = config.dsn
+# path_2017 = config.path_2017
+path_2017 = config.path_2017_test
 files_2017 = os.listdir(path_2017)
 # print(files_2017)
 
 # print("Database version:", con.version)
-i = 1
+# i = 1
 sqlst = "INSERT INTO TBL_MBCCS_SECURITY_TEAM_RAW VALUES (" \
         ":FILE_NAME,    " \
         ":CRUISE_INFO,    " \
@@ -88,19 +88,28 @@ for file_2017 in files_2017:
                 # SA officer increased by 1
                 var_resource1_content += cell + "\n"
                 var_resource1_qty += 1
+                print(var_resource1_qty)
+                print(cell)
             elif APO_IND:
                 # APO officer increased by 1
                 var_resource2_content += cell + "\n"
                 var_resource2_qty += 1
-
+        # test_str = var_resource1_content.encode('ascii')
+        # print(test_str)
         # process sheet 3, i.e. TSA sheet
         for cell_TSA in sheet_tsa_col:
+
             if cell_TSA:
                 var_resource3_content += cell_TSA + "\n"
                 var_resource3_qty += 1
+                # print(var_resource3_qty)
+                # print(cell_TSA)
             else:
                 continue
 
+        var_resource1_content = removeNonAscii(var_resource1_content)
+        var_resource2_content = removeNonAscii(var_resource2_content)
+        var_resource3_content = removeNonAscii(var_resource3_content)
         cursor.execute(None,
                        FILE_NAME=file_2017,
                        CRUISE_INFO=var_cruise_info,
