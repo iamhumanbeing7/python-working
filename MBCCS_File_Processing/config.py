@@ -1,6 +1,7 @@
 user = "APPTESTDBA"
 pw = "Passw0rd1"
 dsn = "SSCDA/oradbdev"
-path_2017 = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Data\\MBCCS Security Deployment_fromBenny\\2017\\"
+path_2017 = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Working\\2017\\"
+path_2016 = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Working\\2016\\"
 path_2017_test = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Data\\MBCCS Security Deployment_fromBenny\\2017_test\\"
 path_2017_error = "D:\\Work\AA_Projects\\2018-06_MBCCS\\Requirements\\Data\\MBCCS Security Deployment_fromBenny\\2017_error\\"

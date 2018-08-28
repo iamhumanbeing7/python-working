@@ -11,11 +11,9 @@ def removeNonAscii(varstring):
 user = config.user
 pw = config.pw
 dsn = config.dsn
-path_2017 = config.path_2017
-path_2017_error = config.path_2017_error
-# path_2017 = config.path_2017_test
-files_2017 = os.listdir(path_2017)
-# print(files_2017)
+path_2016 = config.path_2016
+files_2016 = os.listdir(path_2016)
+# print(files_2016)
 
 # print("Database version:", con.version)
 # i = 1
@@ -33,18 +31,19 @@ sqlst = "INSERT INTO TBL_MBCCS_SECURITY_TEAM_RAW VALUES (" \
         ":RESOURCE3_QTY, " \
         ":EXCEPTION_INFO, " \
         ":QTY_APO, " \
-        ":QTY_SA)"
+        ":QTY_SA," \
+        ":YR)"
 con = cx_Oracle.connect(user, pw, dsn)
 cursor = con.cursor()
 cursor.prepare(sqlst)
 
-for file_2017 in files_2017:
+for file_2016 in files_2016:
     # if i == 3:
     #     break
 
-    file_2017_path = os.path.join(path_2017, file_2017)
-    print(file_2017)
-    excelbook = open_workbook(file_2017_path)
+    file_2016_path = os.path.join(path_2016, file_2016)
+    print(file_2016)
+    excelbook = open_workbook(file_2016_path)
 
     try:
         sheet_main = excelbook.sheet_by_index(0)
@@ -122,7 +121,7 @@ for file_2017 in files_2017:
 
 
         cursor.execute(None,
-                       FILE_NAME=file_2017,
+                       FILE_NAME=file_2016,
                        CRUISE_INFO=var_cruise_info,
                        RESOURCE1=var_resource1,
                        RESOURCE1_CONTENT=var_resource1_content,
@@ -135,7 +134,8 @@ for file_2017 in files_2017:
                        RESOURCE3_QTY=var_resource3_qty,
                        EXCEPTION_INFO='',
                        QTY_APO=var_qty_APO,
-                       QTY_SA=var_qty_SA)
+                       QTY_SA=var_qty_SA,
+                       YR='2016')
     # except cx_Oracle.DatabaseError as exception:
     #     print('Failed to execute cursor!')
     #     print("DatabaseError error: {0}".format(exception))
@@ -145,7 +145,7 @@ for file_2017 in files_2017:
         var_qty_APO = int(sheet_billing.cell(sheet_billing.nrows - 1, 3).value)
         var_qty_SA = int(sheet_billing.cell(sheet_billing.nrows - 1, 7).value)
         cursor.execute(None,
-                       FILE_NAME=file_2017,
+                       FILE_NAME=file_2016,
                        CRUISE_INFO=var_cruise_info,
                        RESOURCE1='',
                        RESOURCE1_CONTENT='',
@@ -158,15 +158,16 @@ for file_2017 in files_2017:
                        RESOURCE3_QTY=0,
                        EXCEPTION_INFO=str(inderr),
                        QTY_APO=var_qty_APO,
-                       QTY_SA=var_qty_SA
+                       QTY_SA=var_qty_SA,
+                       YR='2016'
                        )
-        print('{0} cannot be processed. Insert Billing info only'.format(file_2017))
+        print('{0} worksheets missing. Insert Billing info only'.format(file_2016))
     except Exception as commonexception:
-        print('{0} cannot be processed due to Exception : {1}'.format(file_2017, commonexception))
+        print('{0} cannot be processed due to Exception : {1}'.format(file_2016, commonexception))
     # i += 1
         try:
             cursor.execute(None,
-                           FILE_NAME=file_2017,
+                           FILE_NAME=file_2016,
                            CRUISE_INFO='',
                            RESOURCE1='',
                            RESOURCE1_CONTENT='',
@@ -179,10 +180,11 @@ for file_2017 in files_2017:
                            RESOURCE3_QTY=0,
                            EXCEPTION_INFO=str(commonexception),
                            QTY_APO=0,
-                           QTY_SA=0
+                           QTY_SA=0,
+                           YR='2016'
                            )
-            print('{0} Only file name and exception information are persisted.'.format(file_2017))
-            # shutil.copy(file_2017_path, path_2017_error)
+            print('{0} Only file name and exception information are persisted.'.format(file_2016))
+            # shutil.copy(file_2016_path, path_2016_error)
         except Exception as e:
             print('Failed to Insert problematic file name to DB due to Exception: {0}'.format(e))
 
