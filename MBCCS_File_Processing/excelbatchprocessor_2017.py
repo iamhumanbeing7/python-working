@@ -33,7 +33,8 @@ sqlst = "INSERT INTO TBL_MBCCS_SECURITY_TEAM_RAW VALUES (" \
         ":RESOURCE3_QTY, " \
         ":EXCEPTION_INFO, " \
         ":QTY_APO, " \
-        ":QTY_SA)"
+        ":QTY_SA," \
+        ":YR)"
 con = cx_Oracle.connect(user, pw, dsn)
 cursor = con.cursor()
 cursor.prepare(sqlst)
@@ -135,7 +136,8 @@ for file_2017 in files_2017:
                        RESOURCE3_QTY=var_resource3_qty,
                        EXCEPTION_INFO='',
                        QTY_APO=var_qty_APO,
-                       QTY_SA=var_qty_SA)
+                       QTY_SA=var_qty_SA,
+                       YR='2017')
     # except cx_Oracle.DatabaseError as exception:
     #     print('Failed to execute cursor!')
     #     print("DatabaseError error: {0}".format(exception))
@@ -158,7 +160,8 @@ for file_2017 in files_2017:
                        RESOURCE3_QTY=0,
                        EXCEPTION_INFO=str(inderr),
                        QTY_APO=var_qty_APO,
-                       QTY_SA=var_qty_SA
+                       QTY_SA=var_qty_SA,
+                       YR='2017'
                        )
         print('{0} worksheets missing. Insert Billing info only'.format(file_2017))
     except Exception as commonexception:
@@ -179,7 +182,8 @@ for file_2017 in files_2017:
                            RESOURCE3_QTY=0,
                            EXCEPTION_INFO=str(commonexception),
                            QTY_APO=0,
-                           QTY_SA=0
+                           QTY_SA=0,
+                           YR='2017'
                            )
             print('{0} Only file name and exception information are persisted.'.format(file_2017))
             # shutil.copy(file_2017_path, path_2017_error)
